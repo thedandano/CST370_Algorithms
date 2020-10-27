@@ -1,6 +1,7 @@
 /*
  * Title: hw0_1.cpp
- * Abstract:
+ * Abstract: This program takes a key and 2 numbers as user input and peforms a 
+ * summation or subtractons based on they key entered.
  * Author: Dan Sedano
  * ID: 0254
  * Date: 10/26/2020
