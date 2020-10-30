@@ -1,5 +1,5 @@
 /*
- * Title: hw1_1.cpp
+ * Title: hw1_2.cpp
  * Abstract: This program checks two strings to see if they are an anagram.
  * Author: Dan Sedano
  * ID: 0254
