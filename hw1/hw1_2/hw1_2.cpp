@@ -8,11 +8,13 @@
 
 #include <iostream>
 #include <algorithm>
+#include <map>
 using namespace std;
 
 bool sameLength(string word1, string word2);
 bool isAnagram(string word1, string word2);
-void printAnagramCounts(string word1);
+map<char, int> countChars(string word1);
+void printCharCounts(map<char, int> map);
 
 int main()
 {
@@ -23,10 +25,15 @@ int main()
 
     if (sameLength(word1, word2))
     {
+        //sort both words first
+        sort(word1.begin(), word1.end());
+        sort(word2.begin(), word2.end());
+
         if (isAnagram(word1, word2))
         {
-            //cout << "Yes" << endl;
-            printAnagramCounts(word1);
+            cout << "ANAGRAM" << endl;
+
+            printCharCounts(countChars(word1));
         }
         else
         {
@@ -40,6 +47,13 @@ int main()
 
     return 0;
 }
+
+/**
+ *Compares the length of two strings returns true if they are the same 
+ * @param string word1
+ * @param string word2
+ * @returns true if word lenght matches false otherwise.
+ */
 bool sameLength(string word1, string word2)
 {
     int len1 = word1.length();
@@ -53,13 +67,15 @@ bool sameLength(string word1, string word2)
     return isSameLen;
 }
 
+/**
+ * Takes in sorted strings to compare them, and returns true or false.
+ * @param string word1
+ * @param string word2
+ * @returns bool if the strings are an anagram.
+ */
 bool isAnagram(string word1, string word2)
 {
     bool isAnagram = false;
-    // int stringLen = word1.length();
-
-    sort(word1.begin(), word1.end());
-    sort(word2.begin(), word2.end());
 
     if (word1.compare(word2) == 0)
     {
@@ -69,27 +85,31 @@ bool isAnagram(string word1, string word2)
     return isAnagram;
 }
 
-void printAnagramCounts(string word1)
+/**
+ * Calculates the counts of each character and adds them to a map, then it returns the map.
+ * @param string word
+ * @returns a map of <char, int> with the counts of each character.
+ */
+map<char, int> countChars(string word)
 {
-    string array;
-    int letterCount = 0;
-    sort(word1.begin(), word1.end());
-    for (int x = 0; x < word1.length(); x++)
+    //laod counts
+    map<char, int> counts;
+    for (int x = 0; x < word.length(); x++)
     {
-        letterCount = 0;
-        for (int y = 0; y < word1.length(); y++)
-        {
-            if (word1.at(x) == word1.at(y))
-            {
-                letterCount++;
-                array = new string*[x];
-                array[x] = new string[y];
-                array[x][0] = word1.at(y);
-                array[x][1] = atoi(letterCount); 
-                cout << word1.at(y) << " : " << letterCount << endl;
-                break;
-            }
-        }
+        // adds the character to the map. Any duplicates will just have the value updated.
+        counts[word.at(x)] += 1; 
     }
-    cout << letterCount << endl;
+    return counts;
+}
+
+/**
+ * Prints out the counts map of <char, int>.
+ * @param map<char,int> counts
+ */
+void printCharCounts(map<char, int> counts)
+{
+    for (auto &x : counts)
+    {
+        cout << x.first << " : " << x.second << endl;
+    }
 }
