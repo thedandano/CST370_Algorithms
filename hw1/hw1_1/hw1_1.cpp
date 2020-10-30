@@ -17,20 +17,20 @@ void getMinDistance(int arr[], int arrLen);
 
 int main()
 {
-    int numbersIn = 0;
-    cin >> numbersIn;
+    int arrLen = 0;
+    cin >> arrLen;
 
-    int numbers[numbersIn];
-    for (int x = 0; x < numbersIn; x++)
+    int numbers[arrLen];
+    for (int x = 0; x < arrLen; x++)
     {
         cin >> numbers[x];
     }
 
-    sortDecend(numbers, numbersIn);
+    sortDecend(numbers, arrLen);
 
     cout << endl;
 
-    getMinDistance(numbers, numbersIn);
+    getMinDistance(numbers, arrLen);
 
     return 0;
 }
@@ -50,6 +50,7 @@ void sortDecend(int arr[], int arrLen)
         {
             if (arr[x] > arr[y])
             {
+                // sorting!
                 temp = arr[x];
                 arr[x] = arr[y];
                 arr[y] = temp;
@@ -76,14 +77,14 @@ void getMinDistance(int arr[], int arrLen)
     {
         for (int y = 0; y < arrLen; y++)
         {
-            tempDis = arr[y] - arr[x];
+            tempDis = arr[x] - arr[y];
 
             // only takes positive numbers and if less than current distance
             if (tempDis > 0 && tempDis < distance)
             {
                 distance = tempDis;
-                firstNumber = arr[y];
-                secondNumber = arr[x];
+                firstNumber = arr[x];
+                secondNumber = arr[y];
             }
         }
     }
