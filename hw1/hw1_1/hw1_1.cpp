@@ -12,7 +12,7 @@
 using namespace std;
 
 // function prototypes
-void sortDecend(int arr[], int arrLen);
+void sortAcend(int arr[], int arrLen);
 void getMinDistance(int arr[], int arrLen);
 
 int main()
@@ -26,7 +26,7 @@ int main()
         cin >> numbers[x];
     }
 
-    sortDecend(numbers, arrLen);
+    sortAcend(numbers, arrLen);
 
     cout << endl;
 
@@ -40,7 +40,7 @@ int main()
  * @param int array[]
  * @param int arrLen
  */
-void sortDecend(int arr[], int arrLen)
+void sortAcend(int arr[], int arrLen)
 {
     int temp;
 
@@ -48,7 +48,7 @@ void sortDecend(int arr[], int arrLen)
     {
         for (int y = 0; y < arrLen; y++)
         {
-            if (arr[x] > arr[y])
+            if (arr[x] < arr[y])
             {
                 // sorting!
                 temp = arr[x];
@@ -68,26 +68,26 @@ void sortDecend(int arr[], int arrLen)
 void getMinDistance(int arr[], int arrLen)
 {
     // initializes with first a distance of first two numbers
-    int firstNumber = arr[0];
-    int secondNumber = arr[1];
-    int distance = arr[0] - arr[1];
+    int num1 = arr[0];
+    int num2 = arr[1];
+    int distance = arr[1] - arr[0];
     int tempDis;
 
     for (int x = 0; x < arrLen; x++)
     {
         for (int y = 0; y < arrLen; y++)
         {
-            tempDis = arr[x] - arr[y];
+            tempDis = arr[y] - arr[x];
 
             // only takes positive numbers and if less than current distance
             if (tempDis > 0 && tempDis < distance)
             {
                 distance = tempDis;
-                firstNumber = arr[x];
-                secondNumber = arr[y];
+                num1 = arr[x];
+                num2 = arr[y];
             }
         }
     }
     cout << "Min distance: " << distance << endl;
-    cout << "Two numbers for min distance: " << secondNumber << " and " << firstNumber << endl;
+    cout << "Two numbers for min distance: " << num1 << " and " << num2 << endl;
 }
