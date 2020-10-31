@@ -7,22 +7,21 @@
  * Date: 10/29/2020
  */
 
-#include <iostream>
 #include <bits/stdc++.h>
+
+#include <iostream>
 using namespace std;
 
 // function prototypes
 void sortAcend(int arr[], int arrLen);
 void getMinDistance(int arr[], int arrLen);
 
-int main()
-{
+int main() {
     int arrLen = 0;
     cin >> arrLen;
 
     int numbers[arrLen];
-    for (int x = 0; x < arrLen; x++)
-    {
+    for (int x = 0; x < arrLen; x++) {
         cin >> numbers[x];
     }
 
@@ -40,16 +39,12 @@ int main()
  * @param int array[]
  * @param int arrLen
  */
-void sortAcend(int arr[], int arrLen)
-{
+void sortAcend(int arr[], int arrLen) {
     int temp;
 
-    for (int x = 0; x < arrLen; x++)
-    {
-        for (int y = 0; y < arrLen; y++)
-        {
-            if (arr[x] < arr[y])
-            {
+    for (int x = 0; x < arrLen; x++) {
+        for (int y = 0; y < arrLen; y++) {
+            if (arr[x] < arr[y]) {
                 // sorting!
                 temp = arr[x];
                 arr[x] = arr[y];
@@ -65,23 +60,19 @@ void sortAcend(int arr[], int arrLen)
  * @param int arr[]
  * @param int arrLen
  */
-void getMinDistance(int arr[], int arrLen)
-{
+void getMinDistance(int arr[], int arrLen) {
     // initializes with first a distance of first two numbers
     int num1 = arr[0];
     int num2 = arr[1];
     int distance = arr[1] - arr[0];
     int tempDis;
 
-    for (int x = 0; x < arrLen; x++)
-    {
-        for (int y = 0; y < arrLen; y++)
-        {
+    for (int x = 0; x < arrLen; x++) {
+        for (int y = 0; y < arrLen; y++) {
             tempDis = arr[y] - arr[x];
 
             // only takes positive numbers and if less than current distance
-            if (tempDis > 0 && tempDis < distance)
-            {
+            if (tempDis > 0 && tempDis < distance) {
                 distance = tempDis;
                 num1 = arr[x];
                 num2 = arr[y];

@@ -6,8 +6,8 @@
  * Date: 10/29/2020
  */
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <map>
 using namespace std;
 
@@ -16,32 +16,25 @@ bool isAnagram(string word1, string word2);
 map<char, int> countChars(string word1);
 void printCharCounts(map<char, int> map);
 
-int main()
-{
+int main() {
     string word1;
     cin >> word1;
     string word2;
     cin >> word2;
 
-    if (sameLength(word1, word2))
-    {
+    if (sameLength(word1, word2)) {
         //sort both words first
         sort(word1.begin(), word1.end());
         sort(word2.begin(), word2.end());
 
-        if (isAnagram(word1, word2))
-        {
+        if (isAnagram(word1, word2)) {
             cout << "ANAGRAM" << endl;
 
             printCharCounts(countChars(word1));
-        }
-        else
-        {
+        } else {
             cout << "NO ANAGRAM" << endl;
         }
-    }
-    else
-    {
+    } else {
         cout << "NO ANAGRAM" << endl;
     }
 
@@ -54,14 +47,12 @@ int main()
  * @param string word2
  * @returns true if word lenght matches false otherwise.
  */
-bool sameLength(string word1, string word2)
-{
+bool sameLength(string word1, string word2) {
     int len1 = word1.length();
     int len2 = word2.length();
     bool isSameLen = false;
 
-    if (len1 == len2)
-    {
+    if (len1 == len2) {
         isSameLen = true;
     }
     return isSameLen;
@@ -73,12 +64,10 @@ bool sameLength(string word1, string word2)
  * @param string word2
  * @returns bool if the strings are an anagram.
  */
-bool isAnagram(string word1, string word2)
-{
+bool isAnagram(string word1, string word2) {
     bool isAnagram = false;
 
-    if (word1.compare(word2) == 0)
-    {
+    if (word1.compare(word2) == 0) {
         isAnagram = true;
     }
 
@@ -90,14 +79,12 @@ bool isAnagram(string word1, string word2)
  * @param string word
  * @returns a map of <char, int> with the counts of each character.
  */
-map<char, int> countChars(string word)
-{
+map<char, int> countChars(string word) {
     //laod counts
     map<char, int> counts;
-    for (int x = 0; x < word.length(); x++)
-    {
+    for (int x = 0; x < word.length(); x++) {
         // adds the character to the map. Any duplicates will just have the value updated.
-        counts[word.at(x)] += 1; 
+        counts[word.at(x)] += 1;
     }
     return counts;
 }
@@ -106,10 +93,8 @@ map<char, int> countChars(string word)
  * Prints out the counts map of <char, int>.
  * @param map<char,int> counts
  */
-void printCharCounts(map<char, int> counts)
-{
-    for (auto &x : counts)
-    {
+void printCharCounts(map<char, int> counts) {
+    for (auto &x : counts) {
         cout << x.first << " : " << x.second << endl;
     }
 }
