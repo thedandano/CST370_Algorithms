@@ -7,13 +7,11 @@
  * Date: 10/29/2020
  */
 
-#include <bits/stdc++.h>
-
 #include <iostream>
 using namespace std;
 
 // function prototypes
-void sortAcend(int arr[], int arrLen);
+void sortAscend(int arr[], int arrLen);
 void getMinDistance(int arr[], int arrLen);
 
 int main() {
@@ -25,7 +23,7 @@ int main() {
         cin >> numbers[x];
     }
 
-    sortAcend(numbers, arrLen);
+    sortAscend(numbers, arrLen);
 
     cout << endl;
 
@@ -35,11 +33,11 @@ int main() {
 }
 
 /**
- * Sorts the array in decending order
+ * Sorts the array in ascending order
  * @param int array[]
  * @param int arrLen
  */
-void sortAcend(int arr[], int arrLen) {
+void sortAscend(int arr[], int arrLen) {
     int temp;
 
     for (int x = 0; x < arrLen; x++) {
@@ -55,7 +53,7 @@ void sortAcend(int arr[], int arrLen) {
 }
 
 /**
- * Calculates the minimum distane between 2 numbers and prints the min disantce
+ * Calculates the minimum distane between 2 numbers and prints the min distance
  * and which two numbers.
  * @param int arr[]
  * @param int arrLen
