@@ -8,12 +8,9 @@
  */
 
 #include <iostream>
-#include <vector>
-#include <algorithm>
 using namespace std;
 
-int main()
-{
+int main() {
     int numEvents;
     cin >> numEvents;
 
@@ -21,37 +18,27 @@ int main()
     int eventArr[numEvents][hours];
     int start, end;
 
-    for (int x = 0; x < numEvents; x++)
-    {
+    for (int x = 0; x < numEvents; x++) {
         cin >> start >> end;
-        for (int y = 0; y < hours; y++)
-        {
-            if (y >= start && y < end)
-            {
+        for (int y = 0; y < hours; y++) {
+            if (y >= start && y < end) {
                 eventArr[x][y] = 1;
-            }
-            else
-            {
+            } else {
                 eventArr[x][y] = 0;
             }
         }
     }
 
-    vector<int> maxCount;
     int count = 0;
     int max = 0;
-    for (int y = 0; y < hours; y++)
-    {
-        for (int x = 0; x < numEvents; x++)
-        {
-            if (eventArr[x][y] == 1)
-            {
+    for (int y = 0; y < hours; y++) {
+        for (int x = 0; x < numEvents; x++) {
+            if (eventArr[x][y] == 1) {
                 count++;
             }
         }
         // set max
-        if (count > max)
-        {
+        if (count > max) {
             max = count;
         }
         //reset count
