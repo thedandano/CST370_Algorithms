@@ -21,13 +21,24 @@ int main() {
     for (int x = 0; x < numEvents; x++) {
         cin >> start >> end;
         for (int y = 0; y < hours; y++) {
-            if (y >= start && y < end) {
+            if (y >= start && y <= end) {
                 eventArr[x][y] = 1;
             } else {
                 eventArr[x][y] = 0;
             }
         }
     }
+
+    // diag
+    for (int x = 0; x < numEvents; x++)
+    {
+        for (int y = 0; y < hours; y++)
+        {
+            cout << eventArr[x][y];
+        }
+        cout << "\n";        
+    }
+    
 
     int count = 0;
     int max = 0;
@@ -37,6 +48,7 @@ int main() {
                 count++;
             }
         }
+        cout << count; // diag
         // set max
         if (count > max) {
             max = count;
@@ -44,6 +56,7 @@ int main() {
         //reset count
         count = 0;
     }
+    cout << "\n"; // diag
     cout << "Max events:" << max << endl;
 
     return 0;
