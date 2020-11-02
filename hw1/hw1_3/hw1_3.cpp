@@ -18,6 +18,7 @@ int main() {
     int eventArr[numEvents][hours];
     int start, end;
 
+    // Fills an array based on user input.
     for (int x = 0; x < numEvents; x++) {
         cin >> start >> end;
         for (int y = 0; y < hours; y++) {
@@ -29,17 +30,7 @@ int main() {
         }
     }
 
-    // diag
-    for (int x = 0; x < numEvents; x++)
-    {
-        for (int y = 0; y < hours; y++)
-        {
-            cout << eventArr[x][y];
-        }
-        cout << "\n";        
-    }
-    
-
+    //sums the the columns to determin concurrency of events.
     int count = 0;
     int max = 0;
     for (int y = 0; y < hours; y++) {
@@ -48,16 +39,13 @@ int main() {
                 count++;
             }
         }
-        cout << count; // diag
-        // set max
+        // updates max value as condition is met.
         if (count > max) {
             max = count;
         }
         //reset count
         count = 0;
     }
-    cout << "\n"; // diag
     cout << "Max events:" << max << endl;
-
     return 0;
 }
