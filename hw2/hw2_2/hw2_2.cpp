@@ -9,7 +9,6 @@
  */
 
 #include <math.h>
-
 #include <bitset>
 #include <iostream>
 using namespace std;
