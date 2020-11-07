@@ -8,34 +8,46 @@
  */
 
 #include <iostream>
+#include <list>
+#include <map>
 using namespace std;
 
 int main() {
+    map<int, list<int>> graph;
+
+    // input vertices
     int vertices;
     cin >> vertices;
-    // creates a 0 filled 2d array based on input vertices
-    int adj_matrix[vertices][vertices] = {};
+    // ends program if vertices entered are 0
+    if (vertices == 0) {
+        return 0;
+    }
+    // initializes the map with the number of vertices
+    for (int x = 0; x < vertices; x++) {
+        graph[x];
+    }
 
+    // input edges
     int edges;
     cin >> edges;
-
-    //intakes the users graph data
+    // intakes the users graph data and loads to list of the corresponding vertex.
     int source, destination;
     for (int x = 0; x < edges; x++) {
         cin >> source >> destination;
-        // adds a 1 in the adj_matrix between the source and destination
-        adj_matrix[source][destination] = 1;
+        graph[source].push_back(destination);
     }
 
-    // prints out the adjacency list.
-    for (int x = 0; x < vertices; x++) {
-        cout << x;
-        for (int y = 0; y < vertices; y++) {
-            if (adj_matrix[x][y] > 0) {
-                cout << "->" << y;
-            }
+    //iterate through map values
+    map<int, list<int>>::iterator itr;
+    for (itr = graph.begin(); itr != graph.end(); itr++) {
+        cout << itr->first;
+
+        itr->second.sort();  // sort the list for each map key first
+        list<int>::iterator it;
+        for (it = itr->second.begin(); it != itr->second.end(); it++) {
+            cout << "->" << *it;
         }
-        cout << "\n";
+        cout << endl;
     }
 
     return 0;
