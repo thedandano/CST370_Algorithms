@@ -11,44 +11,69 @@
 #include <math.h>
 
 #include <bitset>
-// #include <boost/dynamic_bitset.hpp>
 #include <iostream>
 using namespace std;
 
+/**
+ * This function prints out the binary form of a decimal number limited by the 
+ * size of the set.
+ * @param int n and int set_size
+ */
+void printBits(int n, int set_size) {
+    int binaryNum[set_size] = {};
+    int i = set_size;
+
+    // if set is 0 then cannot convert to binary
+    if (set_size == 0) {
+        cout << set_size;
+    } else {
+        while (n > 0) {
+            binaryNum[i - 1] = n % 2;
+            n = n / 2;
+            i--;
+        }
+        for (auto x : binaryNum) {
+            cout << x;
+        }
+    }
+    cout << ":";
+}
+
+/**
+ * Prints out the power set and subsets of user input.
+ * @param string *set 
+ * @param int set_size
+ * 
+ */
 void printPowerSet(string *set, int set_size) {
     unsigned int pow_set_size = pow(2, set_size);
-    const long unsigned int bits = set_size;
+    size_t bits = set_size;
+    bool is_empty = true;
 
     for (int x = 0; x < pow_set_size; x++) {
-        cout << bitset<3>(x) << ": ";
-        for (int y = 0; y < set_size; y++) {
+        printBits(x, set_size);
+        // checks the least significant bit first 
+        for (int y = set_size - 1; y >= 0; y--) {
             if (x & (1 << y)) {
                 cout << set[y] << " ";
+                is_empty = false;
             }
+        }
+        if (is_empty) {
+            cout << "EMPTY";
         }
         cout << endl;
     }
 }
 
 int main() {
-    if (__cplusplus == 201703L)
-        std::cout << "C++17" << endl;
-    else if (__cplusplus == 201402L)
-        std::cout << "C++14" << endl;
-    else if (__cplusplus == 201103L)
-        std::cout << "C++11" << endl;
-    else if (__cplusplus == 199711L)
-        std::cout << "C++98" << endl;
-    else
-        std::cout << "pre-standard C++" << endl;
-
     int set_size;
     cin >> set_size;
     string set[set_size];
 
+    // inputs set
     for (int x = 0; x < set_size; x++) {
-        cin >> set[x];
-        // cout << set[x];
+        cin >> set[set_size - x - 1];
     }
 
     printPowerSet(set, set_size);
