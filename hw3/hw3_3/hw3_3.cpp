@@ -87,7 +87,7 @@ void dfs(vector<vector<int>> g, vector<int> &m, int curr, int &counter) {
 
 /**
  * Prints out the mark vector
- * @param vector<int> m input
+ * @param vector<int> m the mark array to be printed out.
  */
 void printMark(vector<int> m) {
     for (int x = 0; x < m.size(); x++) {
