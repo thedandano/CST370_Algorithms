@@ -1,5 +1,5 @@
 /*
- * Title: hw3_1
+ * Title: hw3_1.cpp
  * Abstract: This program reads in a positive integer number from the user
  * and reverses the number while eliminating leading zeros.
  * Author: Dan Sedano
