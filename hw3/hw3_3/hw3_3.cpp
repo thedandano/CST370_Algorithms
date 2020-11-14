@@ -18,9 +18,6 @@ void startTraversal(vector<vector<int>> g, vector<int> &m);
 void dfs(vector<vector<int>> g, vector<int> &m, int curr, int &counter);
 void printMark(vector<int> m);
 
-// Global Var
-//int counter = 0;  // tracks the order of node visited
-
 int main() {
     vector<vector<int>> graph;
     vector<int> mark;
@@ -28,7 +25,6 @@ int main() {
 
     graph = userInput();
 
-    mark.resize(graph.size(), 0);  // resizes to mark vector to match graph's size
     startTraversal(graph, mark);
     printMark(mark);
 
@@ -67,9 +63,10 @@ vector<vector<int>> userInput() {
  * @param vector<int> &m is the mark array passed in by reference.
  */
 void startTraversal(vector<vector<int>> g, vector<int> &m) {
-    int curr = 0;
-    int counter = 0;
-    dfs(g, m, curr, counter);
+    int start = 0;          // the starting node
+    int counter = 0;        // tracks the order each node was visited in
+    m.resize(g.size(), 0);  // resizes to mark vector to match graph's size
+    dfs(g, m, start, counter);
 }
 
 /**
@@ -78,10 +75,11 @@ void startTraversal(vector<vector<int>> g, vector<int> &m) {
  * @returns vector<int> mark which records the order of traversed vertices.
  */
 void dfs(vector<vector<int>> g, vector<int> &m, int curr, int &counter) {
-    m[curr] = ++counter;
-    for (int x = 0; x < g[curr].size(); x++) {
+    m[curr] = ++counter;  // marks the current node with order it was visited in.
+
+    for (int x = 0; x < g[curr].size(); x++) {  // checks the currents nodes neighbors
         int neighbor = g[curr][x];
-        if (m[neighbor] == 0) {
+        if (m[neighbor] == 0) {  // if neighbor has not been visited, lets visit!
             dfs(g, m, neighbor, counter);
         }
     }
