@@ -1,5 +1,5 @@
 /*
- * Title: hw
+ * Title: hw3_3.cpp
  * Abstract: This program implements the Depth-First Search algorithm to traverse
  * a user input graph.
  * Author: Dan Sedano
