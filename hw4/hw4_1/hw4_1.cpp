@@ -77,7 +77,7 @@ void method1(vector<int> &v) {
 void method2(vector<int> &v) {
     int marker = 0;  // marks positive numbers
     int scout = 0;   // scouts for negative numbers
-    while (scout < v.size() - 1) {
+    while (scout < v.size()) {
         if (!v[marker] > 0) {
             marker++;
         }
