@@ -19,8 +19,7 @@ void method1(vector<int> &v);
 void method2(vector<int> &v);
 
 int main() {
-    vector<int> numbers;
-    numbers = input();
+    vector<int> numbers = input();
     vector<int> m1 = numbers;
     vector<int> m2 = numbers;
 
@@ -28,7 +27,6 @@ int main() {
     print(m1);
     method2(m2);
     print(m2);
-    // print(numbers);
     return 0;
 }
 
@@ -52,12 +50,10 @@ vector<int> input() {
 /**
  * Partitions the user's input by starting at each end of the array
  * @param vector<int> &v is passed in by reference.
- */ 
+ */
 void method1(vector<int> &v) {
-    int counter = 0;
-    int cycles = v.size() / 2;
-    int front = 0;
-    int end = v.size() - 1;
+    int front = 0;           // points to the front
+    int end = v.size() - 1;  // points to the end
 
     while (end > front) {
         if (v[front] > 0 && v[end] < 0) {
@@ -69,31 +65,35 @@ void method1(vector<int> &v) {
         } else {
             end--;
         }
-        counter++;
     }
 }
 
 /**
  * Partitions the user's input by using two pointers to scan from left to right.
+ * The marker finds a positive and waits for the scout to find a number to swap 
+ * positions with
  * @param vector<int> &v is passed in by reference.
- */ 
+ */
 void method2(vector<int> &v) {
-    int i = 0;
-    int scout = 0;
-    while(scout < v.size() - 1) {
-        if (!v[i] > 0) {
-            i++;
-        } 
-        if(v[scout] < 0) {
-            swap(v[i],v[scout]);
-            i++;
+    int marker = 0;  // marks positive numbers
+    int scout = 0;   // scouts for negative numbers
+    while (scout < v.size() - 1) {
+        if (!v[marker] > 0) {
+            marker++;
+        }
+        if (v[scout] < 0) {
+            swap(v[marker], v[scout]);
+            marker++;
             scout++;
-        }else {
+        } else {
             scout++;
         }
     }
 }
 
+/**
+ * Prints out the vectors
+ */
 void print(vector<int> v) {
     for (auto x : v) {
         cout << x << " ";
