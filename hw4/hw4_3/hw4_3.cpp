@@ -1,6 +1,6 @@
 /*
  * Title: hw4_3.cpp
- * Abstract: This program
+ * Abstract: This program implements Kahn's algorithm for topological sorting.
  * Author: Dan Sedano
  * ID: 0254
  * Date: 11/25/2020
