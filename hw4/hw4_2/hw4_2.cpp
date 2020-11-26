@@ -55,7 +55,7 @@ int find_max(vector<int> v, int start, int end) {
     int max1 = find_max(v, start, (start + end) / 2);
     int max2 = find_max(v, (start + end) / 2 + 1, end);
 
-    // compares the calls returned value
+    // compares the call's returned value
     if (max1 > max2)
         return max1;
     else
