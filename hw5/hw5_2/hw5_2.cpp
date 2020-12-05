@@ -2,6 +2,8 @@
  * Title: hw5_2.cpp
  * Abstract: This program tests the speed of heap sort, merge sort, and quick sort
  * using random numbers of an user defined size.
+ * Credits: The heap sort, merge sort, and quick sort algorithms are coutesy of 
+ * geeksforgeeks.com
  * Author: Dan Sedano
  * ID: 0254
  * Date: 12/4/20
@@ -9,47 +11,59 @@
 
 #include <iostream>
 #include <chrono>
-#include <algorithm>
+
 using namespace std;
 
 // Prototypes
 int userInput();
-void print(int a[], int len);
+void print(int a[], int len, int startFrom);
 void fillArray(int (&a)[], int len);
-void heap_sort(int a[], int len);
-void heapify(int (&heap)[], int len);
-bool isMaxHeap(int (&heap)[], int len);
-// void getTime(long long start, long long end, string testName);
+void heapSort(int arr[], int n);
+void heapify(int arr[], int n, int i);
+void mergeSort(int arr[], int l, int r);
+void merge(int arr[], int l, int m, int r);
+void quickSort(int arr[], int low, int high);
+int partition (int arr[], int low, int high);
+void swap(int* a, int* b);
 
 int main()
 {
+    
     int len;
     cin >> len;
     int array[len];
     fillArray(array, len);
-
+    
+    // create copies of arrays
+    int *mergeSortArr = new int[len];
+    int *quickSortArr = new int[len];
+    for (int x = 0; x < len; x++){
+        mergeSortArr[x] = array[x];
+        quickSortArr[x] = array[x];
+    }
+    
     cout << "===================== Execution Time ====================" << endl;
-    auto start = chrono::steady_clock::now();
+
     // heap sort
-    heap_sort(array, len);
+    auto start = chrono::steady_clock::now();   
+    heapSort(array, len);
     auto end = chrono::steady_clock::now();
     chrono::duration<double, milli> elapsed_time = end - start;
     cout << "Heap Sort"
          << ": " << elapsed_time.count() << " milliseconds" << endl;
-    // }
-    //getTime(start, end, "Heap Sort");
 
-    start = chrono::steady_clock::now();
     // merge sort
-
+    start = chrono::steady_clock::now();
+    mergeSort(mergeSortArr, 0, len - 1);
     end = chrono::steady_clock::now();
     elapsed_time = end - start;
     cout << "Merge Sort"
          << ": " << elapsed_time.count() << " milliseconds" << endl;
 
-    start = chrono::steady_clock::now();
-    // // quick sort
 
+    // quick sort
+    start = chrono::steady_clock::now();
+    quickSort(quickSortArr, 0, len -1);
     end = chrono::steady_clock::now();
     elapsed_time = end - start;
     cout << "Quick Sort"
@@ -59,15 +73,10 @@ int main()
     return 0;
 }
 
-// void getTime(long long start, long long end, string testName)
-// {
-//     chrono::duration<milliseconds> elapsed_time = end - start;
-//     cout << testName << ": " << elapsed_time * 1000 << " milliseconds" << endl;
-// }
-
-void print(int a[], int len)
+//print for diag purposes
+void print(int a[], int len, int startFrom)
 {
-    for (int x = 1; x < len; x++)
+    for (int x = startFrom; x < len; x++)
     {
         cout << a[x] << " ";
     }
@@ -81,110 +90,187 @@ void print(int a[], int len)
  */
 void fillArray(int (&a)[], int len)
 {
+    srand(time(0)); // seed the random number generator
     for (int x = 0; x < len; x++)
     {
-        a[x] = rand() % 1000; // generates a random number upper bound by the len of the array
+        a[x] = rand() % len; // generates a random number upper bound by the len of the array
     }
 }
 
-/**
- * Implements heap sort on an algorithm
- * @param int a[] array to be heap sorted
- */
-void heap_sort(int a[], int len)
+/*******************************************************************************
+*                                  Heap Sort                                   *
+ *******************************************************************************/
+
+// main function to do heap sort
+void heapSort(int arr[], int n)
 {
-    int heap[len + 1];
-    // copy array
-    for (int x = 1; x < len + 1; x++)
-    {
-        heap[x] = a[x - 1];
+    // Build heap (rearrange array)
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+ 
+    // One by one extract an element from heap
+    for (int i = n - 1; i > 0; i--) {
+        // Move current root to end
+        swap(arr[0], arr[i]);
+ 
+        // call max heapify on the reduced heap
+        heapify(arr, i, 0);
     }
-
-    heapify(heap, len + 1);
-    int heap_sort[len + 1];
-    for (int x = 1; x < len + 1; x++){
-        heap_sort[x] = heap[x];
-        heapify(heap, len + 1);
-    }
-    print(heap_sort, len + 1);
 }
 
-/**
- * Performs the heapify function on a heap
- * @param vector<int> &heap the heap to be heapified
- */
-void heapify(int (&heap)[], int len)
+// To heapify a subtree rooted with node i which is
+// an index in arr[]. n is size of heap
+void heapify(int arr[], int n, int i)
 {
-    int parent;
-    int currVal;
-    bool is_heap;
-    int l_child;
-    int r_child;
-
-    while (!isMaxHeap(heap, len))
-    {
-        for (parent = len / 2; parent > 0; parent--)
-        {
-            is_heap = false;
-            l_child = 2 * parent;
-            r_child = 2 * parent + 1;
-
-            while (!is_heap && l_child < len)
-            {
-
-                if (l_child < len)
-                {
-
-                    if (heap[l_child] < heap[r_child])
-                    {
-                        l_child = r_child; // assignes right to left
-                    }
-                    if (heap[parent] >= heap[l_child])
-                    {
-                        is_heap = true;
-                    }
-                    else
-                    {
-                        // if parent is not greater than the left child
-                        swap(heap[parent], heap[l_child]);
-                    }
-                }
-            }
-        }
+    int largest = i; // Initialize largest as root
+    int l = 2 * i + 1; // left = 2*i + 1
+    int r = 2 * i + 2; // right = 2*i + 2
+ 
+    // If left child is larger than root
+    if (l < n && arr[l] > arr[largest])
+        largest = l;
+ 
+    // If right child is larger than largest so far
+    if (r < n && arr[r] > arr[largest])
+        largest = r;
+ 
+    // If largest is not root
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+ 
+        // Recursively heapify the affected sub-tree
+        heapify(arr, n, largest);
     }
 }
 
-/**
- * Checks if a heap is a Max Heap.
- * @param vector<int> heap the heap to be checked
- * @returns a boolean value
- */
-bool isMaxHeap(int (&heap)[], int len)
+/*******************************************************************************
+*                                  Merge Sort                                  *
+*                            From Geeksforgeeks.com                            *
+ *******************************************************************************/
+
+void merge(int arr[], int l, int m, int r)
 {
-    int parent;
-    int l_child;
-    int r_child;
-    for (int x = len / 2; x > 0; x--)
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temp arrays
+    int L[n1], R[n2];
+
+    // Copy data to temp arrays L[] and R[]
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // Merge the temp arrays back into arr[l..r]
+
+    // Initial index of first subarray
+    int i = 0;
+
+    // Initial index of second subarray
+    int j = 0;
+
+    // Initial index of merged subarray
+    int k = l;
+
+    while (i < n1 && j < n2)
     {
-        parent = x;
-        l_child = x * 2;     // left child
-        r_child = x * 2 + 1; // right child
-        if (l_child < len)
+        if (L[i] <= R[j])
         {
-            //check left child
-            if (heap[l_child] > heap[parent])
-            {
-                return false;
-            }
+            arr[k] = L[i];
+            i++;
         }
-        if (r_child < len)
+        else
         {
-            // check right child
-            if (heap[r_child] > heap[parent])
-            {
-                return false;
-            }
+            arr[k] = R[j];
+            j++;
         }
+        k++;
     }
-    return true;
+
+    // Copy the remaining elements of
+    // L[], if there are any
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of
+    // R[], if there are any
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
 }
+
+// l is for left index and r is
+// right index of the sub-array
+// of arr to be sorted */
+void mergeSort(int arr[], int l, int r)
+{
+    if (l >= r)
+    {
+        return; //returns recursively
+    }
+    int m = (l + r - 1) / 2;
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+    merge(arr, l, m, r);
+}
+
+/*******************************************************************************
+*                                  Quick Sort                                  *
+ *******************************************************************************/
+void swap(int* a, int* b)  
+{  
+    int t = *a;  
+    *a = *b;  
+    *b = t;  
+}  
+  
+/* This function takes last element as pivot, places  
+the pivot element at its correct position in sorted  
+array, and places all smaller (smaller than pivot)  
+to left of pivot and all greater elements to right  
+of pivot */
+int partition (int arr[], int low, int high)  
+{  
+    int pivot = arr[high]; // pivot  
+    int i = (low - 1); // Index of smaller element  
+  
+    for (int j = low; j <= high - 1; j++)  
+    {  
+        // If current element is smaller than the pivot  
+        if (arr[j] < pivot)  
+        {  
+            i++; // increment index of smaller element  
+            swap(&arr[i], &arr[j]);  
+        }  
+    }  
+    swap(&arr[i + 1], &arr[high]);  
+    return (i + 1);  
+}  
+  
+/* The main function that implements QuickSort  
+arr[] --> Array to be sorted,  
+low --> Starting index,  
+high --> Ending index */
+void quickSort(int arr[], int low, int high)  
+{  
+    if (low < high)  
+    {  
+        /* pi is partitioning index, arr[p] is now  
+        at right place */
+        int pi = partition(arr, low, high);  
+  
+        // Separately sort elements before  
+        // partition and after partition  
+        quickSort(arr, low, pi - 1);  
+        quickSort(arr, pi + 1, high);  
+    }  
+}  
+  
