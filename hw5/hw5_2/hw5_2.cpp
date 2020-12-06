@@ -9,18 +9,17 @@
  * Date: 12/4/20
  */
 
-#include <iostream>
-#include <iomanip>
 #include <chrono>
+#include <iomanip>
+#include <iostream>
 // global
-#define text_width 12 // print formatting
+#define text_width 12  // print formatting
 
 using namespace std;
 
 // Prototypes
 int userInput();
 void print(int a[], int len, int startFrom);
-void fillArray(int (&a)[], int len);
 void heapSort(int arr[], int n);
 void heapify(int arr[], int n, int i);
 void mergeSort(int arr[], int l, int r);
@@ -29,24 +28,21 @@ void quickSort(int arr[], int low, int high);
 int partition(int arr[], int low, int high);
 void swap(int *a, int *b);
 
-int main()
-{
-
+int main() {
     int len;
     cin >> len;
     int *array = new int[len];
-    // fillArray(array, len);
-    srand(time(0)); // seed the random number generator
-    for (int x = 0; x < len; x++)
-    {
-        array[x] = rand() % len; // generates a random number upper bound by the len of the array
+
+    // fillArray with random numbers
+    srand(time(0));  // seed the random number generator
+    for (int x = 0; x < len; x++) {
+        array[x] = rand() % len;  // generates a random number upper bound by the len of the array
     }
 
     // create copies of arrays
     int *mergeSortArr = new int[len];
     int *quickSortArr = new int[len];
-    for (int x = 0; x < len; x++)
-    {
+    for (int x = 0; x < len; x++) {
         mergeSortArr[x] = array[x];
         quickSortArr[x] = array[x];
     }
@@ -86,28 +82,24 @@ int main()
 }
 
 //print for diag purposes
-void print(int a[], int len, int startFrom)
-{
-    for (int x = startFrom; x < len; x++)
-    {
+void print(int a[], int len, int startFrom) {
+    for (int x = startFrom; x < len; x++) {
         cout << a[x] << " ";
     }
     cout << endl;
 }
 
-/**
- * Fills the array with random integers
- * @param int a[] array to be filled by reference
- * @param int len the length of the array to be filled
- */
-void fillArray(int (&a)[], int len)
-{
-    srand(time(0)); // seed the random number generator
-    for (int x = 0; x < len; x++)
-    {
-        a[x] = rand() % len; // generates a random number upper bound by the len of the array
-    }
-}
+// /**
+//  * Fills the array with random integers
+//  * @param int a[] array to be filled by reference
+//  * @param int len the length of the array to be filled
+//  */
+// void fillArray(int (&a)[], int len) {
+//     srand(time(0));  // seed the random number generator
+//     for (int x = 0; x < len; x++) {
+//         a[x] = rand() % len;  // generates a random number upper bound by the len of the array
+//     }
+// }
 
 /*******************************************************************************
 *                                  Heap Sort                                   *
@@ -115,15 +107,13 @@ void fillArray(int (&a)[], int len)
  *******************************************************************************/
 
 // main function to do heap sort
-void heapSort(int arr[], int n)
-{
+void heapSort(int arr[], int n) {
     // Build heap (rearrange array)
     for (int i = n / 2 - 1; i >= 0; i--)
         heapify(arr, n, i);
 
     // One by one extract an element from heap
-    for (int i = n - 1; i > 0; i--)
-    {
+    for (int i = n - 1; i > 0; i--) {
         // Move current root to end
         swap(arr[0], arr[i]);
 
@@ -134,11 +124,10 @@ void heapSort(int arr[], int n)
 
 // To heapify a subtree rooted with node i which is
 // an index in arr[]. n is size of heap
-void heapify(int arr[], int n, int i)
-{
-    int largest = i;   // Initialize largest as root
-    int l = 2 * i + 1; // left = 2*i + 1
-    int r = 2 * i + 2; // right = 2*i + 2
+void heapify(int arr[], int n, int i) {
+    int largest = i;    // Initialize largest as root
+    int l = 2 * i + 1;  // left = 2*i + 1
+    int r = 2 * i + 2;  // right = 2*i + 2
 
     // If left child is larger than root
     if (l < n && arr[l] > arr[largest])
@@ -149,8 +138,7 @@ void heapify(int arr[], int n, int i)
         largest = r;
 
     // If largest is not root
-    if (largest != i)
-    {
+    if (largest != i) {
         swap(arr[i], arr[largest]);
 
         // Recursively heapify the affected sub-tree
@@ -163,8 +151,7 @@ void heapify(int arr[], int n, int i)
 *                            From Geeksforgeeks.com                            *
  *******************************************************************************/
 
-void merge(int arr[], int l, int m, int r)
-{
+void merge(int arr[], int l, int m, int r) {
     int n1 = m - l + 1;
     int n2 = r - m;
 
@@ -188,15 +175,11 @@ void merge(int arr[], int l, int m, int r)
     // Initial index of merged subarray
     int k = l;
 
-    while (i < n1 && j < n2)
-    {
-        if (L[i] <= R[j])
-        {
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
             arr[k] = L[i];
             i++;
-        }
-        else
-        {
+        } else {
             arr[k] = R[j];
             j++;
         }
@@ -205,8 +188,7 @@ void merge(int arr[], int l, int m, int r)
 
     // Copy the remaining elements of
     // L[], if there are any
-    while (i < n1)
-    {
+    while (i < n1) {
         arr[k] = L[i];
         i++;
         k++;
@@ -214,8 +196,7 @@ void merge(int arr[], int l, int m, int r)
 
     // Copy the remaining elements of
     // R[], if there are any
-    while (j < n2)
-    {
+    while (j < n2) {
         arr[k] = R[j];
         j++;
         k++;
@@ -225,11 +206,9 @@ void merge(int arr[], int l, int m, int r)
 // l is for left index and r is
 // right index of the sub-array
 // of arr to be sorted */
-void mergeSort(int arr[], int l, int r)
-{
-    if (l >= r)
-    {
-        return; //returns recursively
+void mergeSort(int arr[], int l, int r) {
+    if (l >= r) {
+        return;  //returns recursively
     }
     int m = (l + r - 1) / 2;
     mergeSort(arr, l, m);
@@ -241,8 +220,7 @@ void mergeSort(int arr[], int l, int r)
 *                                  Quick Sort                                  *
 *                            From Geeksforgeeks.com                            *
  *******************************************************************************/
-void swap(int *a, int *b)
-{
+void swap(int *a, int *b) {
     int t = *a;
     *a = *b;
     *b = t;
@@ -253,17 +231,14 @@ the pivot element at its correct position in sorted
 array, and places all smaller (smaller than pivot)  
 to left of pivot and all greater elements to right  
 of pivot */
-int partition(int arr[], int low, int high)
-{
-    int pivot = arr[high]; // pivot
-    int i = (low - 1);     // Index of smaller element
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];  // pivot
+    int i = (low - 1);      // Index of smaller element
 
-    for (int j = low; j <= high - 1; j++)
-    {
+    for (int j = low; j <= high - 1; j++) {
         // If current element is smaller than the pivot
-        if (arr[j] < pivot)
-        {
-            i++; // increment index of smaller element
+        if (arr[j] < pivot) {
+            i++;  // increment index of smaller element
             swap(&arr[i], &arr[j]);
         }
     }
@@ -275,10 +250,8 @@ int partition(int arr[], int low, int high)
 arr[] --> Array to be sorted,  
 low --> Starting index,  
 high --> Ending index */
-void quickSort(int arr[], int low, int high)
-{
-    if (low < high)
-    {
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
         /* pi is partitioning index, arr[p] is now  
         at right place */
         int pi = partition(arr, low, high);
