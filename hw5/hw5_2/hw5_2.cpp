@@ -34,8 +34,13 @@ int main()
 
     int len;
     cin >> len;
-    int array[len];
-    fillArray(array, len);
+    int *array= new int[len];
+    // fillArray(array, len);
+    srand(time(0)); // seed the random number generator
+    for (int x = 0; x < len; x++)
+    {
+        array[x] = rand() % len; // generates a random number upper bound by the len of the array
+    }
 
     // create copies of arrays
     int *mergeSortArr = new int[len];
