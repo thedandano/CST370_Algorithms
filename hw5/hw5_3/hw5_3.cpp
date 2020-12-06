@@ -10,6 +10,9 @@
 #include <vector>
 using namespace std;
 
+#define LOAD 0.5 // predefined load for hash table
+#define EMPTY '/0' // defined value for empty vector element
+
 int hasher(int value, int hash);
 vector<int> buildHashTable(int &hash);
 int getNextPrime(int input);
@@ -90,7 +93,7 @@ vector<int> buildHashTable(int &hash)
 {
     int hashTableSize;
     cin >> hashTableSize;
-    vector<int> hashTable(hashTableSize, '/0');
+    vector<int> hashTable(hashTableSize, EMPTY);
     hash = hashTableSize; // will always be prime //getNextPrime(hashTableSize);
 
     return hashTable;
@@ -106,13 +109,13 @@ bool ratioIsOK(vector<int> &hashTable)
     int counter = 1; // start at 1 to see what the ratio would be like post insertion.
     for (auto x : hashTable)
     {
-        if (x != '/0')
+        if (x != EMPTY)
         {
             counter++;
         }
     }
     double ratio = (double)counter / (double)hashTable.size();
-    if (ratio > 0.5)
+    if (ratio > LOAD)
     {
         return false;
     }
@@ -161,12 +164,12 @@ int getNextPrime(int input)
 void rehash(vector<int> &hashTable, int &hash)
 {
     hash = getNextPrime(hashTable.size() * 2);
-    vector<int> newHashTable(hash, '/0'); // new hash value for new table size.
+    vector<int> newHashTable(hash, EMPTY); // new hash value for new table size.
 
     int key;
     for (auto value : hashTable)
     {
-        if (value != '/0')
+        if (value != EMPTY)
         {
             key = hasher(value, hash);
             newHashTable[key] = value;
@@ -186,7 +189,7 @@ void insert(vector<int> &hashTable, int value, int &hash)
     if (ratioIsOK(hashTable))
     {
         // increments the key counter if it already in use.
-        while (hashTable[key] != '/0')
+        while (hashTable[key] != EMPTY)
         {
             key++;
             // resets key to 0 to wrap around.
@@ -211,7 +214,7 @@ void insert(vector<int> &hashTable, int value, int &hash)
  */
 void displayStatus(vector<int> &hashtable, int index)
 {
-    if (hashtable[index] != '/0')
+    if (hashtable[index] != EMPTY)
     {
         cout << hashtable[index] << endl;
     }
