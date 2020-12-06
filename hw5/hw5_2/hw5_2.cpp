@@ -34,7 +34,7 @@ int main()
 
     int len;
     cin >> len;
-    int *array= new int[len];
+    int *array = new int[len];
     // fillArray(array, len);
     srand(time(0)); // seed the random number generator
     for (int x = 0; x < len; x++)
@@ -111,6 +111,7 @@ void fillArray(int (&a)[], int len)
 
 /*******************************************************************************
 *                                  Heap Sort                                   *
+*                            From Geeksforgeeks.com                            *
  *******************************************************************************/
 
 // main function to do heap sort
@@ -238,6 +239,7 @@ void mergeSort(int arr[], int l, int r)
 
 /*******************************************************************************
 *                                  Quick Sort                                  *
+*                            From Geeksforgeeks.com                            *
  *******************************************************************************/
 void swap(int *a, int *b)
 {
