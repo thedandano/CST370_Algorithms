@@ -10,7 +10,10 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <chrono>
+// global
+#define text_width 12 // print formatting
 
 using namespace std;
 
@@ -23,51 +26,55 @@ void heapify(int arr[], int n, int i);
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int m, int r);
 void quickSort(int arr[], int low, int high);
-int partition (int arr[], int low, int high);
-void swap(int* a, int* b);
+int partition(int arr[], int low, int high);
+void swap(int *a, int *b);
 
 int main()
 {
-    
+
     int len;
     cin >> len;
     int array[len];
     fillArray(array, len);
-    
+
     // create copies of arrays
     int *mergeSortArr = new int[len];
     int *quickSortArr = new int[len];
-    for (int x = 0; x < len; x++){
+    for (int x = 0; x < len; x++)
+    {
         mergeSortArr[x] = array[x];
         quickSortArr[x] = array[x];
     }
-    
+
     cout << "===================== Execution Time ====================" << endl;
 
     // heap sort
-    auto start = chrono::steady_clock::now();   
+    auto start = chrono::steady_clock::now();
     heapSort(array, len);
     auto end = chrono::steady_clock::now();
     chrono::duration<double, milli> elapsed_time = end - start;
-    cout << "Heap Sort"
-         << ": " << elapsed_time.count() << " milliseconds" << endl;
+    cout << left << setw(text_width) << "Heap Sort: "
+         << elapsed_time.count()
+         << right << " milliseconds" << endl;
 
     // merge sort
     start = chrono::steady_clock::now();
     mergeSort(mergeSortArr, 0, len - 1);
     end = chrono::steady_clock::now();
     elapsed_time = end - start;
-    cout << "Merge Sort"
-         << ": " << elapsed_time.count() << " milliseconds" << endl;
-
+    cout << left << setw(text_width) << "Merge Sort: "
+         << elapsed_time.count()
+         << right << " milliseconds" << endl;
 
     // quick sort
     start = chrono::steady_clock::now();
-    quickSort(quickSortArr, 0, len -1);
+    quickSort(quickSortArr, 0, len - 1);
     end = chrono::steady_clock::now();
     elapsed_time = end - start;
-    cout << "Quick Sort"
-         << ": " << elapsed_time.count() << " milliseconds" << endl;
+    cout << left << setw(text_width) << "Quick Sort: "
+         << elapsed_time.count()
+         << right << " milliseconds" << endl;
+
     cout << "=========================================================" << endl;
 
     return 0;
@@ -107,12 +114,13 @@ void heapSort(int arr[], int n)
     // Build heap (rearrange array)
     for (int i = n / 2 - 1; i >= 0; i--)
         heapify(arr, n, i);
- 
+
     // One by one extract an element from heap
-    for (int i = n - 1; i > 0; i--) {
+    for (int i = n - 1; i > 0; i--)
+    {
         // Move current root to end
         swap(arr[0], arr[i]);
- 
+
         // call max heapify on the reduced heap
         heapify(arr, i, 0);
     }
@@ -122,22 +130,23 @@ void heapSort(int arr[], int n)
 // an index in arr[]. n is size of heap
 void heapify(int arr[], int n, int i)
 {
-    int largest = i; // Initialize largest as root
+    int largest = i;   // Initialize largest as root
     int l = 2 * i + 1; // left = 2*i + 1
     int r = 2 * i + 2; // right = 2*i + 2
- 
+
     // If left child is larger than root
     if (l < n && arr[l] > arr[largest])
         largest = l;
- 
+
     // If right child is larger than largest so far
     if (r < n && arr[r] > arr[largest])
         largest = r;
- 
+
     // If largest is not root
-    if (largest != i) {
+    if (largest != i)
+    {
         swap(arr[i], arr[largest]);
- 
+
         // Recursively heapify the affected sub-tree
         heapify(arr, n, largest);
     }
@@ -225,52 +234,51 @@ void mergeSort(int arr[], int l, int r)
 /*******************************************************************************
 *                                  Quick Sort                                  *
  *******************************************************************************/
-void swap(int* a, int* b)  
-{  
-    int t = *a;  
-    *a = *b;  
-    *b = t;  
-}  
-  
+void swap(int *a, int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
 /* This function takes last element as pivot, places  
 the pivot element at its correct position in sorted  
 array, and places all smaller (smaller than pivot)  
 to left of pivot and all greater elements to right  
 of pivot */
-int partition (int arr[], int low, int high)  
-{  
-    int pivot = arr[high]; // pivot  
-    int i = (low - 1); // Index of smaller element  
-  
-    for (int j = low; j <= high - 1; j++)  
-    {  
-        // If current element is smaller than the pivot  
-        if (arr[j] < pivot)  
-        {  
-            i++; // increment index of smaller element  
-            swap(&arr[i], &arr[j]);  
-        }  
-    }  
-    swap(&arr[i + 1], &arr[high]);  
-    return (i + 1);  
-}  
-  
+int partition(int arr[], int low, int high)
+{
+    int pivot = arr[high]; // pivot
+    int i = (low - 1);     // Index of smaller element
+
+    for (int j = low; j <= high - 1; j++)
+    {
+        // If current element is smaller than the pivot
+        if (arr[j] < pivot)
+        {
+            i++; // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
 /* The main function that implements QuickSort  
 arr[] --> Array to be sorted,  
 low --> Starting index,  
 high --> Ending index */
-void quickSort(int arr[], int low, int high)  
-{  
-    if (low < high)  
-    {  
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
         /* pi is partitioning index, arr[p] is now  
         at right place */
-        int pi = partition(arr, low, high);  
-  
-        // Separately sort elements before  
-        // partition and after partition  
-        quickSort(arr, low, pi - 1);  
-        quickSort(arr, pi + 1, high);  
-    }  
-}  
-  
+        int pi = partition(arr, low, high);
+
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
