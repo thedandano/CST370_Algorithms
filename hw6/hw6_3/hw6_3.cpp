@@ -1,9 +1,10 @@
 /*
- * Title: hw
- * Abstract: This program
+ * Title: hw6_1.cpp
+ * Abstract: This program implements floyds algorithm to get the shortest distance
+ * pairs.
  * Author: Dan Sedano
  * ID: 0254
- * Date: 
+ * Date: 12/11/2020
  */
 
 #include <iostream>
@@ -68,3 +69,25 @@ void floyd(vector<vector<int>> &A)
         for (row = 1; row < R.size(); row++)
         {
             for (col = 1; col < R.size(); col++)
+            {
+                if (R[row][node] != INFINITY && R[node][col] != INFINITY)
+                {
+                    R[row][col] = min(R[row][col], R[row][node] + R[node][col]);
+                }
+            }
+        }
+    }
+    A = R;
+}
+
+int main()
+{
+    vector<vector<int>> A = inputMatrix();
+    // vector<vector<int>> A = {{0, 0, 0, 0},
+    //                          {0, 0, 4, 5},
+    //                          {0, 2, 0, -1},
+    //                          {0, -1, -3, 0}};
+    floyd(A);
+    print(A);
+    return 0;
+}
