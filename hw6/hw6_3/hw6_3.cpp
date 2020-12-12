@@ -1,6 +1,7 @@
 /*
  * Title: hw6_1.cpp
- * Abstract: This program implements floyds algorithm to get the shortest distance
+ * Abstract: This program implements floyds algorithm to calculate the
+ * all-pairs shortest paths.
  * pairs.
  * Author: Dan Sedano
  * ID: 0254
@@ -14,6 +15,24 @@ using namespace std;
 #define INFINITY -1
 #define MAX 0x7FFFFFFF
 
+//prototypes
+vector<vector<int>> inputMatrix();
+void print(vector<vector<int>> A);
+int min(int a, int b);
+void floyd(vector<vector<int>> &A);
+
+int main()
+{
+    vector<vector<int>> A = inputMatrix();
+    floyd(A);
+    print(A);
+    return 0;
+}
+
+/**
+ * Receives handles input from user and builds the matrix.
+ * @returns vector<vector<int>>
+ */
 vector<vector<int>> inputMatrix()
 {
     int nodes;
@@ -23,6 +42,7 @@ vector<vector<int>> inputMatrix()
     vector<vector<int>> A;
     A.resize(nodes, vector<int>(nodes));
     // fill matrix starting at row1 col1
+    int input;
     for (int x = 1; x < nodes; x++)
     {
         for (int y = 1; y < nodes; y++)
@@ -33,6 +53,10 @@ vector<vector<int>> inputMatrix()
     return A;
 }
 
+/**
+ * Prints out the matrix
+ * @param vector<vector<int>> A Matrix to be printed.
+ */
 void print(vector<vector<int>> A)
 {
     vector<vector<int>> R = A;
@@ -48,9 +72,16 @@ void print(vector<vector<int>> A)
     cout << endl;
 }
 
+/**
+ * Returns the minimum of the two input values. With a plot twist. 
+ * Converts -1 (i.e., INFINITY) to the max signed 4 byte int value.
+ * @param int a first number
+ * @param int b second number
+ */
 int min(int a, int b)
 {
-    if (a == INFINITY){
+    if (a == INFINITY)
+    {
         a = MAX;
     }
     if (a > b)
@@ -60,10 +91,14 @@ int min(int a, int b)
     return a;
 }
 
+/**
+ * Performs floyds algorithm to find the shortist distance.
+ * @param vector<vector<int>> A to be analyzed.
+ */
 void floyd(vector<vector<int>> &A)
 {
     vector<vector<int>> R = A;
-    int node, row, col;
+    int node, row, col; // used this naming convention to help me understand each iteration.
     for (node = 1; node < R.size(); node++)
     {
         for (row = 1; row < R.size(); row++)
@@ -78,16 +113,4 @@ void floyd(vector<vector<int>> &A)
         }
     }
     A = R;
-}
-
-int main()
-{
-    vector<vector<int>> A = inputMatrix();
-    // vector<vector<int>> A = {{0, 0, 0, 0},
-    //                          {0, 0, 4, 5},
-    //                          {0, 2, 0, -1},
-    //                          {0, -1, -3, 0}};
-    floyd(A);
-    print(A);
-    return 0;
 }
