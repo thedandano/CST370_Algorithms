@@ -106,27 +106,40 @@ void getPath(vector<vector<int>> F)
     cout << endl;
 }
 
-int collectCoins(vector<vector<int>> C, vector<vector<int>> &F)
+int collectCoins(vector<vector<int>> &C, vector<vector<int>> &F)
 {
-    F.resize(C.size(), vector<int>(C[0].size()));
     F[1, 1] = C[1, 1];
-    for (int j = 2; j < F[j].size(); j++)
+
+    // calculate first row
+    for (int j = 2; j < F[0].size(); j++)
     {
-        if (F[1][j] == BLOCKED)
+        if (C[1][j] == BLOCKED)
         {
-            F[1][j] = -1;
-            continue;
+            F[1][j] = 0;
         }
-        F[1][j] = F[1][j - 1] + C[1][j];
+        else
+        {
+            F[1][j] = F[1][j - 1] + C[1][j];
+        }
     }
+
+    // calculate remaining rows
     for (int i = 2; i < F.size(); i++)
     {
-        F[i][1] = F[i - 1][1] + C[i][1];
-        for (int j = 2; j < F[i].size(); j++)
+        if (C[i][1] == BLOCKED)
+        {
+            F[i][1] = 0;
+        }
+        else
+        {
+            F[i][1] = F[i - 1][1] + C[i][1];
+        }
+
+        for (int j = 2; j < F[0].size(); j++)
         {
             if (C[i][j] == BLOCKED)
             {
-                F[i][j] = -1;
+                F[i][j] = 0;
             }
             else
             {
@@ -134,21 +147,19 @@ int collectCoins(vector<vector<int>> C, vector<vector<int>> &F)
             }
         }
     }
-    return F[C.size() - 1][C[0].size() - 1];
+    int row = C.size() - 1;
+    int col = C[0].size() - 1;
+    return F[row][col];
 }
 
 int main()
 {
     vector<vector<int>> board = inputBoard();
-
-    vector<vector<int>> F;
-    // cout << "\nBoard" << endl;
-    // cout << "----------" << endl;
-    //print(board);
-    // cout << "----------" << endl;
+    int width = board.size();
+    int height = board[0].size();
+    vector<vector<int>> F(width, vector<int>(height));
     cout << "\nMax coins:" << collectCoins(board, F) << endl;
-    // print(F);
+    //print(F);
     getPath(F);
-
     return 0;
 }
