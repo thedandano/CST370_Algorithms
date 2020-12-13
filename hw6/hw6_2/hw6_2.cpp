@@ -63,28 +63,34 @@ void getPath(vector<vector<int>> F)
 
     while (true)
     {
+
         path.push_back(make_pair(x, y));
 
-        if (y > 0)
+        if (x > 1 && y > 1)
         {
             if (F[y - 1][x] > F[y][x - 1])
+            {
+                y--;
+            }
+            else
+            {
+                x--;
+            }
+        }
+        else if (y > 1)
+        {
+            if (F[y - 1][x] >= F[y][x - 1])
                 y--;
         }
-        if (x > 0)
+        else if (x > 1)
         {
-            if (F[y][x - 1] > F[y - 1][x])
+            if (F[y - 1][x] <= F[y][x - 1])
                 x--;
         }
-        if (y == 1 && y == 1)
+        else
+        {
             break;
-        // if (F[y - 1][x] > F[y][x - 1])
-        // {
-        //     y--;
-        // }
-        // else
-        // {
-        //     x--;
-        // }
+        }
     }
 
     cout << "Path:"
