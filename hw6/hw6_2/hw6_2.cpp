@@ -61,21 +61,31 @@ void getPath(vector<vector<int>> F)
     int x = F[0].size() - 1;
     int y = F.size() - 1;
 
-    path.push_back(make_pair(x, y));
-    while (x > 1 && y > 1)
+    while (true)
     {
-        if (F[y - 1][x] > F[y][x - 1])
+        path.push_back(make_pair(x, y));
+
+        if (y > 0)
         {
-            y--;
-            path.push_back(make_pair(x, y));
+            if (F[y - 1][x] > F[y][x - 1])
+                y--;
         }
-        else
+        if (x > 0)
         {
-            x--;
-            path.push_back(make_pair(x, y));
+            if (F[y][x - 1] > F[y - 1][x])
+                x--;
         }
+        if (y == 1 && y == 1)
+            break;
+        // if (F[y - 1][x] > F[y][x - 1])
+        // {
+        //     y--;
+        // }
+        // else
+        // {
+        //     x--;
+        // }
     }
-    path.push_back(make_pair(1, 1));
 
     cout << "Path:"
          << "(" << path[path.size() - 1].first
@@ -98,7 +108,7 @@ int collectCoins(vector<vector<int>> C, vector<vector<int>> &F)
     {
         if (F[1][j] == BLOCKED)
         {
-            F[1][j] = 0;
+            F[1][j] = -1;
             continue;
         }
         F[1][j] = F[1][j - 1] + C[1][j];
@@ -110,7 +120,7 @@ int collectCoins(vector<vector<int>> C, vector<vector<int>> &F)
         {
             if (C[i][j] == BLOCKED)
             {
-                F[i][j] = 0;
+                F[i][j] = -1;
             }
             else
             {
@@ -124,19 +134,14 @@ int collectCoins(vector<vector<int>> C, vector<vector<int>> &F)
 int main()
 {
     vector<vector<int>> board = inputBoard();
-    // vector<vector<int>> board = {{0, 0, 0, 0, 0, 0},
-    //                              {0, 0, 0, 0, 1, 0},
-    //                              {0, 1, 0, 1, 0, 1},
-    //                              {0, 0, 1, 0, 0, 1},
-    //                              {0, 0, 0, 0, 1, 0},
-    //                              {0, 0, 1, 0, 0, 0}};
+
     vector<vector<int>> F;
-    cout << "\nBoard" << endl;
-    cout << "----------" << endl;
-    print(board);
-    cout << "----------" << endl;
-    cout << "Max coins:" << collectCoins(board, F) << endl;
-    print(F);
+    // cout << "\nBoard" << endl;
+    // cout << "----------" << endl;
+    //print(board);
+    // cout << "----------" << endl;
+    cout << "\nMax coins:" << collectCoins(board, F) << endl;
+    // print(F);
     getPath(F);
 
     return 0;
