@@ -1,5 +1,5 @@
 /*
- * Title: hw6_1.cpp
+ * Title: hw6_3.cpp
  * Abstract: This program implements floyds algorithm to calculate the
  * all-pairs shortest paths.
  * pairs.
