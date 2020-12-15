@@ -23,6 +23,7 @@ struct coinResults {
 };
 
 #define BLOCKED 2
+#define NEW_BLOCKED -1
 void print(vector<vector<int>> B);
 vector<vector<int>> inputBoard();
 coinResults collectCoins(vector<vector<int>> C);
@@ -34,6 +35,10 @@ int main() {
     // input board
     vector<vector<int>> board = inputBoard();
     coinResults r = collectCoins(board);
+
+    // Diag
+    // cout << "Cost: " << endl;
+    // print(r.valueBoard);
 
     // print results
     cout << "Max coins:" << r.max << endl;
@@ -93,9 +98,12 @@ coinResults collectCoins(vector<vector<int>> C) {
     // calculate first row
     for (int j = 2; j < F[0].size(); j++) {
         if (C[1][j] == BLOCKED) {
-            F[1][j] = 0;
+            F[1][j] = NEW_BLOCKED;
         } else {
-            F[1][j] = F[1][j - 1] + C[1][j];
+            if (F[1][j - 1] == NEW_BLOCKED)
+                F[1][j] = NEW_BLOCKED;
+            else
+                F[1][j] = F[1][j - 1] + C[1][j];
         }
     }
 
@@ -103,15 +111,18 @@ coinResults collectCoins(vector<vector<int>> C) {
     for (int i = 2; i < F.size(); i++) {
         // looks at cell above
         if (C[i][1] == BLOCKED) {
-            F[i][1] = 0;
+            F[i][1] = NEW_BLOCKED;
         } else {
-            F[i][1] = F[i - 1][1] + C[i][1];
+            if (F[i - 1][1] == NEW_BLOCKED)
+                F[i][1] = NEW_BLOCKED;
+            else
+                F[i][1] = F[i - 1][1] + C[i][1];
         }
 
         // looks at the cell before and above
         for (int j = 2; j < F[0].size(); j++) {
             if (C[i][j] == BLOCKED) {
-                F[i][j] = 0;
+                F[i][j] = NEW_BLOCKED;
             } else {
                 F[i][j] = max(F[i - 1][j], F[i][j - 1]) + C[i][j];
             }
@@ -124,7 +135,7 @@ coinResults collectCoins(vector<vector<int>> C) {
     coinResults r;
     r.max = F[row][col];
     r.valueBoard = F;
-    return r;  
+    return r;
 }
 
 /**
