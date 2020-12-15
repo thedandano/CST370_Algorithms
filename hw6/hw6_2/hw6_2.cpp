@@ -100,6 +100,7 @@ coinResults collectCoins(vector<vector<int>> C) {
         if (C[1][j] == BLOCKED) {
             F[1][j] = NEW_BLOCKED;
         } else {
+            // creates a blocked area if the last cell is blocked
             if (F[1][j - 1] == NEW_BLOCKED)
                 F[1][j] = NEW_BLOCKED;
             else
@@ -113,6 +114,7 @@ coinResults collectCoins(vector<vector<int>> C) {
         if (C[i][1] == BLOCKED) {
             F[i][1] = NEW_BLOCKED;
         } else {
+            // creates a blocked area below if the top cell is blocked.
             if (F[i - 1][1] == NEW_BLOCKED)
                 F[i][1] = NEW_BLOCKED;
             else
