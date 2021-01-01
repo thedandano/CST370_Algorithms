@@ -1,5 +1,5 @@
 ### Homework 2
-#### [Homework 2_1](/hw2_1)
+#### [Homework 2_1](./hw2_1)
 
 This program takes in graph data from a user and converts the input data into an adjacency list.
 
