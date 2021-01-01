@@ -8,7 +8,7 @@
 2. [Checks if two strings are anagrams](/hw1/hw1_2)
 3. [Displays the maximum number of events that take place concurrently](/hw1/hw1_3)
 ### [Homework 2](/hw2)
-1. [Converts a user input directed graph into an adjacency matrix format](/hw2/hw2_1/#Homework-2_1)
+1. [Converts a user input directed graph into an adjacency matrix format](/hw2/#Homework-2_1)
 2. [Displays all possible subsets using binary numbers](hw2/hw2_2)
 3. [Collects max number of apples using brute force techniques](hw2/hw2_3)
 ### [Homework 3](/hw3)
