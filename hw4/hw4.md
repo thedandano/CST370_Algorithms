@@ -1,22 +1,25 @@
-### Homework 3
+### Homework 4
 
-#### [Homework 3_1](./hw3_1)
+#### [Homework 4_1](./hw4_1)
 
-This program reads a positive integer from the user and reverses it while removing any leading zeros.
-
+This program partitions a set of numbers by putting all negative numbers in the front and the positive numbers in the rear. Not ordered.
 ##### Sample input:
+* First input indicates the set size
+* The remaining values are the set
 
 ```
-1200
+8 
+-4 3 9 -6 2 -5 8 7 
 ```
 
 ##### Sample output:
 
 ```
-21
+-4 -5 -6 9 2 3 8 7 
+-4 -6 -5 3 2 9 8 7 
 ```
 
-#### [Homework 3_2](./hw3_2)
+#### [Homework 4_2](./hw4_2)
 
 Reads user input graph data then presents a path for the traveling salesman problem.
 
@@ -52,7 +55,7 @@ Path:0->1->3->2->0
 Cost:11
 ```
 
-#### [Homework 3_3](./hw3_3)
+#### [Homework 4_3](./hw4_3)
 
 This program implements the Depth-First Search algorithm and outputs the order of visited vertices.
 
